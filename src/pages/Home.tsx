@@ -89,7 +89,7 @@ function Home() {
       signature
     );
 
-    console.log(signature + " " + signingAddress);
+    console.log(signature + " /  " + signingAddress);
 
     //const data = await s3.send(
     //  new ListObjectsCommand({ Delimiter: "/", Bucket: Buckets[0].Name })
