@@ -12,6 +12,7 @@ import { IdrissCrypto } from "idriss-crypto/lib/browser";
 import { Web3 } from "web3";
 import { signMessage } from "@wagmi/core";
 import { ethers } from "ethers";
+import { Web3Modal, Web3Button } from "@web3modal/react";
 
 function Home() {
   const [jobsLoading, setJobsLoading] = useState(false);
@@ -29,14 +30,11 @@ function Home() {
 
   const [operatorList, setOperatorList] = useState([
     {
-      title: "Test job",
+      title: "Test",
       description: "test description ",
       tags: "solidity, smart contract, audit",
       owner: "0x4444F618BA8E99435E721abF3c611D5105A407e9",
-      category: "security",
-      payment: "100 USDC",
-      date: "11/28/2022",
-      numOfproposals: "3",
+      lastModified: "Thu Dec 01 2022 16:17:07",
     },
   ]);
 
@@ -45,11 +43,7 @@ function Home() {
       <td className="">{i.title}</td>
       <td className="">{i.description}</td>
       <td className="">{truncateStr(i.owner.toString(), 4)}</td>
-      <td className="">{i.category.toString()}</td>
-      <td className="">{i.tags.toString()}</td>
-      <td className="">{i.payment.toString()}</td>
-      <td className="">{i.date.toString()}%</td>
-      <td className="">{i.numOfproposals.toString()}</td>
+      <td className="">{i.lastModified.toString()}</td>
       <td className="">
         <button className="btn btn-sm btn-success" onClick={() => fetchDocs()}>
           Get
@@ -135,10 +129,8 @@ function Home() {
       .promise();
   }
 
-  useEffect(() => {}, []);
-
-  return (
-    <div>
+  function DocContainer() {
+    return (
       <div className="overflow-x-auto grid place-items-center mt-20">
         <input
           type="text"
@@ -178,19 +170,32 @@ function Home() {
         <table className="table w-1/2 text-white">
           <thead className="bg-success">
             <tr>
-              <th className="bg-transparent">Title</th>
-              <th className="bg-transparent">Description id</th>
+              <th className="bg-transparent">Name</th>
+              <th className="bg-transparent">Description</th>
               <th className="bg-transparent">Owner</th>
-              <th className="bg-transparent">Category</th>
-              <th className="bg-transparent">Tags</th>
-              <th className="bg-transparent">Payment</th>
-              <th className="bg-transparent">Date posted</th>
-              <th className="bg-transparent">Number of proposals</th>
+              <th className="bg-transparent">Last modified</th>
               <th className="bg-transparent"></th>
             </tr>
           </thead>
           <tbody>{jobsLoading ? "Loading…" : listItems}</tbody>
         </table>
+      </div>
+    );
+  }
+
+  useEffect(() => {}, []);
+
+  return (
+    <div>
+      <div className="">
+        {!address ? (
+          <div className="overflow-x-auto grid place-items-center mt-20">
+            <p className="mb-5">Connect wallet to access documents...</p>
+            <Web3Button className="" themeColor="green" />
+          </div>
+        ) : (
+          <DocContainer />
+        )}
       </div>
     </div>
   );
