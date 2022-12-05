@@ -1,7 +1,16 @@
 import { useState } from "react";
 import { Web3Modal, Web3Button } from "@web3modal/react";
+import { truncateStr } from "../../utils";
+import {
+  chain,
+  configureChains,
+  createClient,
+  WagmiConfig,
+  useAccount,
+} from "wagmi";
 
 function Navbar() {
+  const { address, isConnected } = useAccount();
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
@@ -35,7 +44,11 @@ function Navbar() {
             </ul>
           </li>
           <li>
-            <a>Profile</a>
+            {!address ? (
+              <p>Loading profile...</p>
+            ) : (
+              <a>{truncateStr(address.toString(), 4)}</a>
+            )}
           </li>
           <li>
             <Web3Button className="" themeColor="green" />
